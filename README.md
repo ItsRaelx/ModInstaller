@@ -8,3 +8,6 @@ Prosty installator modów (a bardziej profili) w minecraft z możłiwością dod
 - Uruchomienie installera
 - Wpisanie kodu nagrywki
 - Kliknięcie przycisku instaluj i poczekanie chwile
+
+
+![pokaz działania](https://github.com/ItsRaelx/ModInstaller/blob/main/docs/instaler_prev.gif?raw=true)
