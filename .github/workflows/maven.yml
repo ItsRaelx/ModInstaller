@@ -50,9 +50,6 @@ jobs:
     - name: Archive Repository
       run: git archive --format=zip --output=${{ github.workspace }}/ModInstaller.zip HEAD
 
-    - name: Prepare Jar File
-      run: mv /home/runner/work/ModInstaller/ModInstaller/target/CustomMods-1.0-SNAPSHOT.jar ${{ github.workspace }}/${{ github.repository }}.jar
-
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
@@ -64,5 +61,5 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          ${{ github.workspace }}/${{ github.repository }}.jar
+          /home/runner/work/ModInstaller/ModInstaller/target/CustomMods-1.0-SNAPSHOT.jar
           ${{ github.workspace }}/${{ github.repository }}.zip
