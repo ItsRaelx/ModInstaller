@@ -18,5 +18,46 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+    - name: Fetch Commit Messages
+      run: |
+        git fetch --prune --tags
+        LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        if [[ -z "$LATEST_TAG" ]]; then
+          COMMITS=$(git log --pretty=format:"- %s")
+        else
+          COMMITS=$(git log $LATEST_TAG..HEAD --pretty=format:"- %s")
+        fi
+        echo "COMMITS<<EOF" >> $GITHUB_ENV
+        echo -e "${COMMITS}" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
+    - name: Generate and Push Tag
+      run: |
+        RELEASE_TAG=${GITHUB_SHA:0:7}
+        echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+        git tag $RELEASE_TAG ${{ github.sha }}
+        git push origin $RELEASE_TAG
+
+    - name: Archive Repository
+      run: git archive --format=zip --output=${{ github.repository }}.zip HEAD
+
+    - name: Prepare Jar File
+      run: mv target/*.jar ${{ github.repository }}.jar
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.RELEASE_TAG }}
+        name: Release ${{ env.RELEASE_TAG }}
+        body: |
+          Changes in this Release:
+          ${{ env.COMMITS }}
+        draft: false
+        prerelease: false
+        files: |
+          ${{ github.repository }}.jar
+          ${{ github.repository }}.zip
