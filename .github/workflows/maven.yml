@@ -51,9 +51,7 @@ jobs:
       run: git archive --format=zip --output=${{ github.workspace }}/ModInstaller.zip HEAD
 
     - name: Prepare Jar File
-      run: |
-        mkdir -p target # Ensure the target directory exists
-        mv target/*.jar ${{ github.workspace }}/${{ github.repository }}.jar
+      run: mv target/CustomMods-1.0-SNAPSHOT.jar ${{ github.workspace }}/${{ github.repository }}.jar
 
     - name: Create Release
       uses: softprops/action-gh-release@v2
