@@ -48,9 +48,7 @@ jobs:
         git push origin $RELEASE_TAG
 
     - name: Archive Repository
-      run: |
-        mkdir -p ${{ github.workspace }} # Ensure the working directory exists
-        git archive --format=zip --output=${{ github.workspace }}/${{ github.repository }}.zip HEAD
+      run: git archive --format=zip --output=${{ github.workspace }}/ModInstaller.zip HEAD
 
     - name: Prepare Jar File
       run: |
