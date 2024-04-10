@@ -23,7 +23,6 @@
         </repository>
     </distributionManagement>
 
-
     <dependencies>
         <!-- Add org.json dependency -->
         <dependency>
@@ -33,4 +32,22 @@
         </dependency>
     </dependencies>
 
+    <!-- Add the build section to configure the maven-jar-plugin -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version> <!-- Ensure you are using a recent version -->
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>org.example.Main</mainClass> <!-- Specify your main class here -->
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
